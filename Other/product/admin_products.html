@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản lý Sản phẩm - The Coffee House</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --orange: #ff6f00;
+      --orange-dark: #e65c00;
+      --orange-light: #ff8c33;
+      --sidebar-bg: #2d2d2d;
+      --sidebar-hover: #3a3a3a;
+      --primary-bg: #fdf6f0;
+      --accent-green: #28a745;
+      --accent-red: #dc3545;
+      --transition: all 0.3s ease;
+    }
+
+    .product-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      font-family: 'Arial', sans-serif;
+      background-color: var(--primary-bg);
+      color: #333;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      background: linear-gradient(135deg, #fff, #f8e9dc);
+      border-radius: 10px;
+      margin: 10px;
+    }
+
+    .main-content h2 {
+      color: var(--orange);
+      font-weight: bold;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+      transition: var(--transition);
+      font-size: 1.8rem;
+    }
+
+    .main-content h2:hover {
+      color: var(--orange-dark);
+      transform: scale(1.02);
+    }
+
+    .btn-success {
+      background-color: var(--orange);
+      border-color: var(--orange);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      font-size: 0.9rem;
+      padding: 8px 16px;
+    }
+
+    .btn-success:hover {
+      background-color: var(--orange-dark);
+      border-color: var(--orange-dark);
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-success::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      transition: var(--transition);
+    }
+
+    .btn-success:hover::after {
+      left: 100%;
+    }
+
+    .btn-warning {
+      background-color: #ffc107;
+      border-color: #ffc107;
+      transition: var(--transition);
+      font-size: 0.85rem;
+      padding: 6px 12px;
+    }
+
+    .btn-warning:hover {
+      background-color: #e0a800;
+      border-color: #e0a800;
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-danger {
+      background-color: var(--accent-red);
+      border-color: var(--accent-red);
+      transition: var(--transition);
+      font-size: 0.85rem;
+      padding: 6px 12px;
+    }
+
+    .btn-danger:hover {
+      background-color: #c82333;
+      border-color: #c82333;
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-secondary {
+      transition: var(--transition);
+      font-size: 0.85rem;
+      padding: 6px 12px;
+    }
+
+    .btn-secondary:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .table img {
+      width: 40px;
+      height: auto;
+      border-radius: 5px;
+      transition: var(--transition);
+      display: block;
+      margin: 0 auto;
+    }
+
+    .table img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .table-dark th {
+      background-color: var(--orange);
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .table td {
+      text-align: center;
+      vertical-align: middle;
+      background-color: #fff;
+      font-size: 0.85rem;
+    }
+
+    .table tbody tr {
+      transition: var(--transition);
+    }
+
+    .table tbody tr:hover {
+      background-color: #f8e9dc;
+      transform: translateY(-2px);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .badge {
+      transition: var(--transition);
+      font-size: 0.8rem;
+    }
+
+    .badge:hover {
+      transform: scale(1.1);
+    }
+
+    .table .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px;
+      background-color: transparent;
+    }
+
+    .table tbody tr:hover .action-buttons {
+      background-color: transparent;
+    }
+
+    .edit-form, .add-form {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 400px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      transition: var(--transition);
+    }
+
+    .edit-form.active, .add-form.active {
+      display: block;
+    }
+
+    .edit-form:hover, .add-form:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      transform: translate(-50%, -52%);
+    }
+
+    .edit-form h4, .add-form h4 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+    }
+
+    .form-control {
+      transition: var(--transition);
+      font-size: 0.85rem;
+      padding: 8px;
+    }
+
+    .form-control:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 5px rgba(255, 111, 0, 0.5);
+      transform: scale(1.01);
+    }
+
+    .search-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .search-container input {
+      flex: 1;
+      max-width: 100%;
+      font-size: 0.85rem;
+      padding: 8px;
+    }
+
+    .search-container button {
+      flex-shrink: 0;
+      font-size: 0.85rem;
+      padding: 8px 16px;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    .modal-overlay.active {
+      display: block;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 576px) {
+      .main-content {
+        padding: 15px;
+        margin: 5px;
+      }
+
+      .main-content h2 {
+        font-size: 1.5rem;
+      }
+
+      .btn-success, .btn-warning, .btn-danger, .btn-secondary {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+      }
+
+      .table {
+        font-size: 0.8rem;
+      }
+
+      .table img {
+        width: 30px;
+      }
+
+      .table-dark th {
+        font-size: 0.8rem;
+      }
+
+      .table td {
+        padding: 8px;
+      }
+
+      .table .action-buttons {
+        flex-direction: column;
+        gap: 5px;
+        padding: 8px;
+      }
+
+      .edit-form, .add-form {
+        max-width: 90%;
+        padding: 10px;
+      }
+
+      .edit-form h4, .add-form h4 {
+        font-size: 1rem;
+      }
+
+      .form-control {
+        font-size: 0.8rem;
+        padding: 6px;
+      }
+
+      .search-container {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .search-container input, .search-container button {
+        width: 100%;
+      }
+    }
+
+    @media (min-width: 576px) and (max-width: 768px) {
+      .main-content {
+        padding: 20px;
+      }
+
+      .main-content h2 {
+        font-size: 1.6rem;
+      }
+
+      .table img {
+        width: 35px;
+      }
+
+      .table .action-buttons {
+        gap: 6px;
+      }
+
+      .edit-form, .add-form {
+        max-width: 450px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .product-container {
+        flex-direction: row;
+      }
+
+      .main-content {
+        padding: 25px;
+      }
+
+      .edit-form, .add-form {
+        max-width: 400px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="product-container">
+    <div class="modal-overlay" id="modal-overlay"></div>
+    <div class="main-content">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Danh sách sản phẩm</h2>
+        <button class="btn btn-success" onclick="showAddForm()">+ Thêm sản phẩm</button>
+      </div>
+
+      <div class="search-container">
+        <input type="text" class="form-control" id="searchInput" placeholder="Tìm kiếm theo tên hoặc danh mục...">
+        <button class="btn btn-success" onclick="searchProducts()">Tìm kiếm</button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead class="table-dark">
+            <tr class="text-center">
+              <th>Tên sản phẩm</th>
+              <th>Ảnh</th>
+              <th>Giá</th>
+              <th>Tình trạng</th>
+              <th>Danh mục</th>
+              <th>Chức năng</th>
+            </tr>
+          </thead>
+          <tbody id="product-list">
+            <tr>
+              <td>Đặc Biệt Hôm Nay</td>
+              <td><img src="assets/img/product-img/1737356461_hi-tea-vai_5cae2b0e46b846c6b596f5bdf61a43a2_large.webp" alt="Đặc Biệt Hôm Nay" onerror="this.src='https://via.placeholder.com/50';" /></td>
+              <td>29.000₫</td>
+              <td><span class="badge bg-success">Còn hàng</span></td>
+              <td>Đặc biệt</td>
+              <td class="action-buttons" style="background-color: #fff;">
+                <button class="btn btn-warning btn-sm" onclick="showEditForm('Đặc Biệt Hôm Nay', '29.000', 'Đặc biệt', 'assets/img/product-img/1737356461_hi-tea-vai_5cae2b0e46b846c6b596f5bdf61a43a2_large.webp')">Sửa</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteProduct('Đặc Biệt Hôm Nay')">Xóa</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Latte Almond</td>
+              <td><img src="assets/img/product-img/1746441513_almond-coffee_f0797787534a473ea51f29afaadf37d3_large.webp" alt="Latte Almond" onerror="this.src='https://via.placeholder.com/50';" /></td>
+              <td>59.000₫</td>
+              <td><span class="badge bg-success">Còn hàng</span></td>
+              <td>Cà phê máy</td>
+              <td class="action-buttons" style="background-color: #fff;">
+                <button class="btn btn-warning btn-sm" onclick="showEditForm('Latte Almond', '59.000', 'Cà phê máy', 'assets/img/product-img/1746441513_almond-coffee_f0797787534a473ea51f29afaadf37d3_large.webp')">Sửa</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteProduct('Latte Almond')">Xóa</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Latte Caramel</td>
+              <td><img src="assets/img/product-img/1746441451_caramel-coffee_dc2004f6d8144f2f8b7512ba95319ef7_large.webp" alt="Latte Caramel" onerror="this.src='https://via.placeholder.com/50';" /></td>
+              <td>59.000₫</td>
+              <td><span class="badge bg-success">Còn hàng</span></td>
+              <td>Cà phê máy</td>
+              <td class="action-buttons" style="background-color: #fff;">
+                <button class="btn btn-warning btn-sm" onclick="showEditForm('Latte Caramel', '59.000', 'Cà phê máy', 'assets/img/product-img/1746441451_caramel-coffee_dc2004f6d8144f2f8b7512ba95319ef7_large.webp')">Sửa</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteProduct('Latte Caramel')">Xóa</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Latte Hazelnut</td>
+              <td><img src="assets/img/product-img/1746441372_halzenut-latte_3ef994056c3b4765a600e853f6cca72d_large.webp" alt="Latte Hazelnut" onerror="this.src='https://via.placeholder.com/50';" /></td>
+              <td>49.000₫</td>
+              <td><span class="badge bg-success">Còn hàng</span></td>
+              <td>Cà phê máy</td>
+              <td class="action-buttons" style="background-color: #fff;">
+                <button class="btn btn-warning btn-sm" onclick="showEditForm('Latte Hazelnut', '49.000', 'Cà phê máy', 'assets/img/product-img/1746441372_halzenut-latte_3ef994056c3b4765a600e853f6cca72d_large.webp')">Sửa</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteProduct('Latte Hazelnut')">Xóa</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Latte Coconut</td>
+              <td><img src="assets/img/product-img/1746441318_latte-coconut_1a5187bb0e9f4e8abe8898129d42f44d_large.webp" alt="Latte Coconut" onerror="this.src='https://via.placeholder.com/50';" /></td>
+              <td>49.000₫</td>
+              <td><span class="badge bg-success">Còn hàng</span></td>
+              <td>Cà phê máy</td>
+              <td class="action-buttons" style="background-color: #fff;">
+                <button class="btn btn-warning btn-sm" onclick="showEditForm('Latte Coconut', '49.000', 'Cà phê máy', 'assets/img/product-img/1746441318_latte-coconut_1a5187bb0e9f4e8abe8898129d42f44d_large.webp')">Sửa</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteProduct('Latte Coconut')">Xóa</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Sữa Đá</td>
+              <td><img src="assets/img/product-img/1737357037_tch-sua-da_a83639744db94a7a96c1fd6b08e023e1_large.webp" alt="Sữa Đá" onerror="this.src='https://via.placeholder.com/50';" /></td>
+              <td>39.000₫</td>
+              <td><span class="badge bg-success">Còn hàng</span></td>
+              <td>Cà phê Việt Nam</td>
+              <td class="action-buttons" style="background-color: #fff;">
+                <button class="btn btn-warning btn-sm" onclick="showEditForm('Sữa Đá', '39.000', 'Cà phê Việt Nam', 'assets/img/product-img/1737357037_tch-sua-da_a83639744db94a7a96c1fd6b08e023e1_large.webp')">Sửa</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteProduct('Sữa Đá')">Xóa</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Hồng Trà Sữa Nóng</td>
+              <td><img src="assets/img/product-img/1737356747_hong-tra-sua-nong_48e7bdb6ef7b44f28b48412496150d26_large.webp" alt="Hồng Trà Sữa Nóng" onerror="this.src='https://via.placeholder.com/50';" /></td>
+              <td>55.000₫</td>
+              <td><span class="badge bg-success">Còn hàng</span></td>
+              <td>Trà sữa</td>
+              <td class="action-buttons" style="background-color: #fff;">
+                <button class="btn btn-warning btn-sm" onclick="showEditForm('Hồng Trà Sữa Nóng', '55.000', 'Trà sữa', 'assets/img/product-img/1737356747_hong-tra-sua-nong_48e7bdb6ef7b44f28b48412496150d26_large.webp')">Sửa</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteProduct('Hồng Trà Sữa Nóng')">Xóa</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="edit-form" class="edit-form">
+        <h4>Chỉnh sửa sản phẩm</h4>
+        <form onsubmit="return saveEditForm(event)">
+          <div class="mb-3">
+            <label for="productName" class="form-label">Tên sản phẩm</label>
+            <input type="text" class="form-control" id="productName" required />
+          </div>
+          <div class="mb-3">
+            <label for="productImage" class="form-label">Ảnh sản phẩm (URL)</label>
+            <input type="text" class="form-control" id="productImage" required />
+          </div>
+          <div class="mb-3">
+            <label for="productPrice" class="form-label">Giá</label>
+            <input type="text" class="form-control" id="productPrice" required />
+          </div>
+          <div class="mb-3">
+            <label for="productCategory" class="form-label">Danh mục</label>
+            <input type="text" class="form-control" id="productCategory" required />
+          </div>
+          <button type="submit" class="btn btn-success">Lưu thay đổi</button>
+          <button type="button" class="btn btn-secondary" onclick="hideEditForm()">Hủy</button>
+        </form>
+      </div>
+
+      <div id="add-form" class="add-form">
+        <h4>Thêm sản phẩm mới</h4>
+        <form onsubmit="return addProduct(event)">
+          <div class="mb-3">
+            <label for="newProductName" class="form-label">Tên sản phẩm</label>
+            <input type="text" class="form-control" id="newProductName" required />
+          </div>
+          <div class="mb-3">
+            <label for="newProductImage" class="form-label">Ảnh sản phẩm (URL)</label>
+            <input type="text" class="form-control" id="newProductImage" required />
+          </div>
+          <div class="mb-3">
+            <label for="newProductPrice" class="form-label">Giá</label>
+            <input type="text" class="form-control" id="newProductPrice" required />
+          </div>
+          <div class="mb-3">
+            <label for="newProductCategory" class="form-label">Danh mục</label>
+            <input type="text" class="form-control" id="newProductCategory" required />
+          </div>
+          <button type="submit" class="btn btn-success">Thêm</button>
+          <button type="button" class="btn btn-secondary" onclick="hideAddForm()">Hủy</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentEditProductName = '';
+
+    function showAddForm() {
+      document.getElementById('add-form').classList.add('active');
+      document.getElementById('modal-overlay').classList.add('active');
+      document.getElementById('edit-form').classList.remove('active');
+      document.getElementById('newProductName').value = '';
+      document.getElementById('newProductImage').value = '';
+      document.getElementById('newProductPrice').value = '';
+      document.getElementById('newProductCategory').value = '';
+    }
+
+    function hideAddForm() {
+      document.getElementById('add-form').classList.remove('active');
+      document.getElementById('modal-overlay').classList.remove('active');
+    }
+
+    function showEditForm(name, price, category, imageUrl) {
+      currentEditProductName = name;
+      document.getElementById('edit-form').classList.add('active');
+      document.getElementById('modal-overlay').classList.add('active');
+      document.getElementById('add-form').classList.remove('active');
+      document.getElementById('productName').value = name;
+      document.getElementById('productImage').value = imageUrl;
+      document.getElementById('productPrice').value = price.replace('₫', '');
+      document.getElementById('productCategory').value = category;
+    }
+
+    function hideEditForm() {
+      document.getElementById('edit-form').classList.remove('active');
+      document.getElementById('modal-overlay').classList.remove('active');
+    }
+
+    function addProduct(event) {
+      event.preventDefault();
+      const name = document.getElementById('newProductName').value;
+      const image = document.getElementById('newProductImage').value;
+      const price = document.getElementById('newProductPrice').value;
+      const category = document.getElementById('newProductCategory').value;
+
+      if (!name || !image || !price || !category) {
+        alert('Vui lòng điền đầy đủ thông tin.');
+        return false;
+      }
+
+      const productList = document.getElementById('product-list');
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td>${name}</td>
+        <td><img src="${image}" alt="${name}" onerror="this.src='https://via.placeholder.com/50';" /></td>
+        <td>${price}₫</td>
+        <td><span class="badge bg-success">Còn hàng</span></td>
+        <td>${category}</td>
+        <td class="action-buttons" style="background-color: #fff;">
+          <button class="btn btn-warning btn-sm" onclick="showEditForm('${name}', '${price}', '${category}', '${image}')">Sửa</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteProduct('${name}')">Xóa</button>
+        </td>
+      `;
+      productList.appendChild(newRow);
+      hideAddForm();
+      return false;
+    }
+
+    function saveEditForm(event) {
+      event.preventDefault();
+      const name = document.getElementById('productName').value;
+      const image = document.getElementById('productImage').value;
+      const price = document.getElementById('productPrice').value;
+      const category = document.getElementById('productCategory').value;
+
+      if (!name || !image || !price || !category) {
+        alert('Vui lòng điền đầy đủ thông tin.');
+        return false;
+      }
+
+      const rows = document.querySelectorAll('#product-list tr');
+      for (let row of rows) {
+        if (row.cells[0].textContent === currentEditProductName) {
+          row.cells[0].textContent = name;
+          row.cells[1].innerHTML = `<img src="${image}" alt="${name}" onerror="this.src='https://via.placeholder.com/50';" />`;
+          row.cells[2].textContent = `${price}₫`;
+          row.cells[4].textContent = category;
+          row.cells[5].innerHTML = `
+            <button class="btn btn-warning btn-sm" onclick="showEditForm('${name}', '${price}', '${category}', '${image}')">Sửa</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteProduct('${name}')">Xóa</button>
+          `;
+          break;
+        }
+      }
+      hideEditForm();
+      return false;
+    }
+
+    function deleteProduct(name) {
+      if (confirm(`Bạn có chắc chắn muốn xóa sản phẩm "${name}" không?`)) {
+        const rows = document.querySelectorAll('#product-list tr');
+        for (let row of rows) {
+          if (row.cells[0].textContent === name) {
+            row.remove();
+            break;
+          }
+        }
+      }
+    }
+
+    function searchProducts() {
+      let input = document.getElementById('searchInput').value.toLowerCase();
+      let rows = document.querySelectorAll('#product-list tr');
+      rows.forEach(row => {
+        const name = row.cells[0].textContent.toLowerCase();
+        const category = row.cells[4].textContent.toLowerCase();
+        row.style.display = (name.includes(input) || category.includes(input)) ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

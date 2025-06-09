@@ -1,0 +1,306 @@
+<body>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    </style>
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+            <select class="form-select w-auto">
+                <option selected>Tác vụ</option>
+                <option>Xóa</option>
+                <option>Ẩn</option>
+                <option>Hiện</option>
+            </select>
+
+            <input type="text" class="form-control w-auto" placeholder="Tìm kiếm" />
+
+            <select class="form-select w-auto">
+                <option selected>Tìm theo</option>
+                <option>Họ tên</option>
+                <option>Tên tài khoản</option>
+            </select>
+
+            <select class="form-select w-auto">
+                <option selected>Số hiển thị</option>
+                <option>10</option>
+                <option>20</option>
+                <option>50</option>
+            </select>
+
+            <button
+                class="btn btn-primary ms-auto"
+                data-bs-toggle="modal"
+                data-bs-target="#addUserModal"
+            >
+                <i class="bi bi-plus"></i> Thêm mới
+            </button>
+        </div>
+
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" /></th> <th>ID</th>
+                    <th>Họ tên</th>
+                    <th>Tên tài khoản</th> <th>Quyền hạn</th>
+                    <th>Hiển thị</th>
+                    <th>Tác vụ</th> </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <tr>
+                    <td><input type="checkbox" /></td> <td>1</td>
+                    <td>Administrator</td>
+                    <td>admin</td>
+                    <td>Administrator</td>
+                    <td>Hiện</td>
+                    <td>
+                        <button
+                            class="btn btn-sm btn-outline-primary me-1 edit-btn"
+                            data-fullname="Administrator"
+                            data-username="admin"
+                            data-role="Administrator"
+                            data-visible="Hiện"
+                        >
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger delete-btn">
+                            <i class="bi bi-x-circle"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="addUserModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <form id="addUserForm">
+                        <input type="hidden" name="editRowIndex" value="" /> <div class="modal-header">
+                            <h5 class="modal-title">Thêm tài khoản</h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                            ></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="mb-2">
+                                <label>Loại tài khoản:</label>
+                                <select class="form-select" name="role">
+                                    <option>Quản trị viên</option>
+                                    <option>Nhân viên</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-2">
+                                <label>Tên tài khoản:</label>
+                                <input type="text" class="form-control" name="username" />
+                            </div>
+
+                            <div class="mb-2">
+                                <label>Họ tên:</label>
+                                <input type="text" class="form-control" name="fullname" />
+                            </div>
+
+                            <div class="mb-2">
+                                <label>Mật khẩu:</label>
+                                <input type="password" class="form-control" name="password" />
+                            </div>
+
+                            <div class="mb-2">
+                                <label>Nhập lại mật khẩu:</label>
+                                <input
+                                    type="password"
+                                    class="form-control"
+                                    name="confirmPassword"
+                                />
+                            </div>
+
+                            <div class="mb-2 form-check">
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    name="visible"
+                                    checked
+                                />
+                                <label class="form-check-label">Hiển thị</label>
+                            </div>
+
+                            <label>Quyền hạn:</label>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" /> Quản trị
+                                        Danh mục
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" /> Bài viết
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" /> Danh mục
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" /> Sản phẩm
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" /> Quản trị
+                                        giao diện
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" /> Hình ảnh
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" /> Hỗ trợ
+                                        trực tuyến
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" /> Video
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" /> Quản trị
+                                        thông tin
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" /> Danh sách
+                                        đơn hàng
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" /> Khách
+                                        hàng liên hệ
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" /> Danh sách
+                                        Điện thoại
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Lưu</button>
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Thoát
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="editRowIndex" />
+    <script>
+        let currentId = 1; 
+        // Biến dùng để đánh số ID tự tăng cho mỗi người dùng mới được thêm.
+
+        document.getElementById('addUserForm').addEventListener('submit', function(e) {
+        e.preventDefault(); 
+        // Ngăn form gửi dữ liệu và reload trang mặc định.
+
+        const form = e.target;
+        const username = form.username.value; // Lấy giá trị Tên tài khoản
+        const fullname = form.fullname.value; // Lấy giá trị Họ tên
+        const role = form.role.value;         // Lấy giá trị Loại tài khoản
+        const visible = form.visible.checked ? 'Hiện' : 'Ẩn'; // Kiểm tra checkbox Hiển thị
+        const editIndex = form.editRowIndex.value; // Lấy chỉ số dòng đang chỉnh sửa (nếu có)
+
+        if (editIndex !== '') {
+            // Nếu đang ở chế độ chỉnh sửa (editIndex có giá trị)
+            const row = document.getElementById('userTableBody').children[editIndex];
+            // Cập nhật dữ liệu mới vào các cột tương ứng trong bảng
+            row.children[2].innerText = fullname;
+            row.children[3].innerText = username;
+            row.children[4].innerText = role;
+            row.children[5].innerText = visible;
+
+            // Cập nhật lại các thuộc tính data- của nút sửa để khi mở lại form chỉnh sửa có dữ liệu đúng
+            const editBtn = row.querySelector('.edit-btn');
+            editBtn.setAttribute('data-fullname', fullname);
+            editBtn.setAttribute('data-username', username);
+            editBtn.setAttribute('data-role', role);
+            editBtn.setAttribute('data-visible', visible);
+        } else {
+            // Nếu thêm mới, tạo 1 dòng HTML mới với dữ liệu người dùng nhập
+            const newRow = `
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>${++currentId}</td> <!-- Tăng ID tự động -->
+                <td>${fullname}</td>
+                <td>${username}</td>
+                <td>${role}</td>
+                <td>${visible}</td>
+                <td>
+                <button class="btn btn-sm btn-outline-primary me-1 edit-btn" 
+                        data-fullname="${fullname}" 
+                        data-username="${username}" 
+                        data-role="${role}" 
+                        data-visible="${visible}">
+                    <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger delete-btn">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+                </td>
+            </tr>
+            `;
+            // Thêm dòng mới vào cuối bảng
+            document.getElementById('userTableBody').insertAdjacentHTML('beforeend', newRow);
+        }
+
+        form.reset(); // Reset form nhập liệu sau khi lưu
+        form.editRowIndex.value = ''; // Xóa giá trị chỉ số dòng chỉnh sửa
+        document.querySelector('#addUserModal .modal-title').innerText = 'Thêm tài khoản'; 
+        // Đổi lại tiêu đề modal về trạng thái thêm mới
+
+        // Đóng modal sau khi lưu
+        bootstrap.Modal.getInstance(document.getElementById('addUserModal')).hide();
+        });
+
+        // Xử lý sự kiện click trên bảng userTableBody (dùng cơ chế event delegation)
+        document.getElementById('userTableBody').addEventListener('click', function (e) {
+        const target = e.target.closest('button'); 
+        // Lấy nút button gần nhất khi click, nếu không phải button thì thoát
+        if (!target) return;
+        const row = target.closest('tr'); // Lấy dòng chứa nút được click
+
+        if (target.classList.contains('delete-btn')) {
+            // Nếu là nút xóa
+            if (confirm('Bạn có chắc muốn xóa người dùng này?')) {
+            row.remove(); // Xóa dòng tương ứng khỏi bảng
+            }
+        }
+
+        if (target.classList.contains('edit-btn')) 
+        {
+            // Nếu là nút sửa
+            const form = document.getElementById('addUserForm');
+            // Lấy vị trí index của dòng trong tbody để biết đang sửa dòng nào
+            form.editRowIndex.value = [...row.parentNode.children].indexOf(row);
+
+            // Lấy dữ liệu từ thuộc tính data- của nút edit để đưa lên form nhập liệu
+            form.fullname.value = target.getAttribute('data-fullname');
+            form.username.value = target.getAttribute('data-username'); 
+            form.role.value = target.getAttribute('data-role');
+            form.visible.checked = target.getAttribute('data-visible') === 'Hiện';
+
+            // Thay đổi tiêu đề modal thành "Chỉnh sửa tài khoản"
+            document.querySelector('#addUserModal .modal-title').innerText = 'Chỉnh sửa tài khoản';
+
+            // Hiển thị modal để chỉnh sửa
+            const modal = new bootstrap.Modal(document.getElementById('addUserModal'));
+            modal.show();
+        }
+        });
+
+    </script>
+</body>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký tài khoản</title>
+    <link rel="icon" href="assets/img/Logo_TCFH.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="assets/bootstrap-5.0.2-dist/css/bootstrap.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        body {
+            background: whitesmoke;
+            background-size: cover;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .signup-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .signup-box img.logo {
+            max-height: 100px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .signup-box h4 {
+            color: #d35400;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #d35400;
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .btn-register {
+            width: 100%;
+            background: linear-gradient(45deg, #ff8c00, #ff4500);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+        }
+
+        .social-icon {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
+        #ggSignup, #fbSignup {
+            transition: all 0.3s ease;
+            padding: 5px;
+            width: 7rem;
+            border-radius: 5px;
+        }
+
+        #ggSignup:hover, #fbSignup:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-1px);
+        }
+
+        .btn-light {
+            border: 2px solid #e9ecef;
+        }
+
+        a {
+            color: #d35400;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .terms-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .terms-row .form-check {
+            margin-right: 8px;
+        }
+
+        .terms-row .form-check-label {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .login-link {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+            font-size: 14px;
+        }
+
+        @media (max-width: 480px) {
+            .signup-box {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .d-flex.justify-content-between {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .d-flex.justify-content-between .btn {
+                margin: 0 !important;
+            }
+
+            .terms-row .form-check-label {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-box">
+        <img src="assets/img/The-Coffee-House-Logo-PNG-2_kdod3z.png" alt="The Coffee House Logo" class="logo">
+        <h4>ĐĂNG KÝ TÀI KHOẢN</h4>
+
+        <!-- Social Buttons -->
+        <div class="d-flex justify-content-between mb-3">
+            <button class="btn btn-light w-100 me-2 d-flex align-items-center justify-content-center" id="ggSignup">
+                <img src="assets/img/Login/Google_Favicon_2025.svg.png" class="me-2 social-icon" alt="Google" />
+                Google
+            </button>
+            <button class="btn btn-light w-100 ms-2 d-flex align-items-center justify-content-center" id="fbSignup">
+                <img src="assets/img/Login/Facebook_Logo_(2019).png.webp" class="me-2 social-icon" alt="Facebook" />
+                Facebook
+            </button>
+        </div>
+        <br>
+        <hr class="my-3">
+        <br>
+
+        <!-- Form Fields -->
+        <div class="form-group">
+            <label for="fullName">Họ và tên</label>
+            <input type="text" id="fullName" placeholder="Nguyễn Văn A" autocomplete="name">
+            <div id="fullName-error" class="error-msg"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="thecoffeehouse123@gmail.com" autocomplete="email">
+            <div id="email-error" class="error-msg"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="username">Tên người dùng</label>
+            <input type="text" id="username" placeholder="Tên đăng nhập" autocomplete="username">
+            <div id="username-error" class="error-msg"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Mật khẩu</label>
+            <input type="password" id="password" placeholder="Tối thiểu 8 ký tự" autocomplete="new-password">
+            <div id="password-error" class="error-msg"></div>
+        </div>
+
+        <div class="terms-row">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="agreeTerms">
+            </div>
+            <label class="form-check-label" for="agreeTerms">
+                Tôi đồng ý với <a href="#">Điều khoản</a> & <a href="#">Chính sách</a>
+            </label>
+            <div id="terms-error" class="error-msg"></div>
+        </div>
+
+        <button class="btn-register" onclick="register()">Tạo tài khoản</button>
+
+        <div class="login-link">
+            Đã có tài khoản? <a href="#" onclick="goToLogin()">Đăng nhập</a>
+        </div>
+    </div>
+
+    <script>
+        function register() {
+            let fullName = document.getElementById("fullName").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let username = document.getElementById("username").value.trim();
+            let password = document.getElementById("password").value.trim();
+            let agreeTerms = document.getElementById("agreeTerms").checked;
+
+            let isValid = true;
+
+            // Reset error messages
+            document.querySelectorAll(".error-msg").forEach(el => el.style.display = "none");
+
+            // Full name validation
+            if (fullName === "") {
+                document.getElementById("fullName-error").innerText = "Vui lòng nhập họ và tên.";
+                document.getElementById("fullName-error").style.display = "block";
+                isValid = false;
+            }
+
+            // Email validation - Fixed regex
+            const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            if (email === "") {
+                document.getElementById("email-error").innerText = "Vui lòng nhập email.";
+                document.getElementById("email-error").style.display = "block";
+                isValid = false;
+            } else if (!emailRegex.test(email)) {
+                document.getElementById("email-error").innerText = "Email không hợp lệ.";
+                document.getElementById("email-error").style.display = "block";
+                isValid = false;
+            }
+
+            // Username validation
+            if (username === "") {
+                document.getElementById("username-error").innerText = "Vui lòng nhập tên người dùng.";
+                document.getElementById("username-error").style.display = "block";
+                isValid = false;
+            } else if (username.length < 4) {
+                document.getElementById("username-error").innerText = "Tên người dùng ít nhất 4 ký tự.";
+                document.getElementById("username-error").style.display = "block";
+                isValid = false;
+            }
+
+            // Password validation
+            if (password === "") {
+                document.getElementById("password-error").innerText = "Vui lòng nhập mật khẩu.";
+                document.getElementById("password-error").style.display = "block";
+                isValid = false;
+            } else if (password.length < 8) {
+                document.getElementById("password-error").innerText = "Mật khẩu phải có ít nhất 8 ký tự.";
+                document.getElementById("password-error").style.display = "block";
+                isValid = false;
+            }
+
+            // Terms validation
+            if (!agreeTerms) {
+                document.getElementById("terms-error").innerText = "Bạn phải đồng ý với điều khoản.";
+                document.getElementById("terms-error").style.display = "block";
+                isValid = false;
+            }
+
+            if (isValid) {
+                // Success - simulate registration
+                alert("Đăng ký thành công!");
+                window.location.href = "login.html";
+
+                // Clear form
+                document.getElementById("fullName").value = "";
+                document.getElementById("email").value = "";
+                document.getElementById("username").value = "";
+                document.getElementById("password").value = "";
+                document.getElementById("agreeTerms").checked = false;
+                
+                // Store user info (in real app, this would be handled by backend)
+                window.userEmail = email;
+                
+                console.log("Redirecting to dashboard...");
+            }
+        }
+
+        function goToLogin() {
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,524 @@
+
+<body>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #2c3e50;
+            --text-color: #333;
+            --light-gray: #f5f6fa;
+            --border-color: #e1e1e1;
+            --success-color: #2ecc71;
+            --warning-color: #f1c40f;
+            --danger-color: #e74c3c;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--text-color);
+        }
+
+
+        .orders-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .dashboard-grid {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--light-gray);
+            font-weight: 600;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status.completed {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .status.pending {
+            background-color: var(--warning-color);
+            color: var(--text-color);
+        }
+
+        .status.processing {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .content-header h2 {
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 5px;
+            margin: 0 2px;
+            transition: color 0.3s ease;
+        }
+
+        .btn-icon:hover {
+            color: var(--primary-color);
+        }
+
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-filter {
+            background-color: white;
+            border: 1px solid var(--border-color);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-filter:hover,
+        .btn-filter.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+
+        @media (max-width: 768px) {
+            .content-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .filter-buttons {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 5px;
+            }
+
+            .btn-filter {
+                white-space: nowrap;
+            }
+        } 
+    </style>
+    <div class="orders-container d-flex justify-content-center">
+            <div class="dashboard-content">
+                <div class="content-header">
+                    <h2>Quản lý đơn hàng</h2>
+                    <div class="filter-buttons">
+                        <button class="btn-filter active">Tất cả</button>
+                        <button class="btn-filter">Đang xử lý</button>
+                        <button class="btn-filter">Đang thanh toán</button>
+                        <button class="btn-filter">Thành công</button>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="grid-item">
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Mã đơn</th>
+                                        <th>Tên khách hàng</th>
+                                        <th>Ngày</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Phương thức thanh toán</th>
+                                        <th>Trạng thái</th>
+                                        <th>Tác vụ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#ORD001</td>
+                                        <td>Trần Thị Bích</td>
+                                        <td>2024-02-20</td>
+                                        <td>$299.99</td>
+                                        <td>Credit Card</td>
+                                        <td><span class="status completed">Completed</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD002</td>
+                                        <td>Nguyễn Văn Hùng</td>
+                                        <td>2024-02-19</td>
+                                        <td>$149.99</td>
+                                        <td>PayPal</td>
+                                        <td><span class="status processing">Processing</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD003</td>
+                                        <td>Mike Johnson</td>
+                                        <td>2024-02-18</td>
+                                        <td>$99.99</td>
+                                        <td>Credit Card</td>
+                                        <td><span class="status pending">Pending</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD004</td>
+                                        <td>Lê Thanh Phong</td>
+                                        <td>2024-02-17</td>
+                                        <td>$50.00</td>
+                                        <td>Debit Card</td>
+                                        <td><span class="status completed">Completed</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD005</td>
+                                        <td>David Brown</td>
+                                        <td>2024-02-16</td>
+                                        <td>$750.00</td>
+                                        <td>Bank Transfer</td>
+                                        <td><span class="status processing">Processing</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD006</td>
+                                        <td>Hoàng Thu Thủy</td>
+                                        <td>2024-02-15</td>
+                                        <td>$120.50</td>
+                                        <td>Credit Card</td>
+                                        <td><span class="status pending">Pending</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD007</td>
+                                        <td>Chris Lee</td>
+                                        <td>2024-02-14</td>
+                                        <td>$35.99</td>
+                                        <td>PayPal</td>
+                                        <td><span class="status completed">Completed</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD008</td>
+                                        <td>Trần Văn Nam</td>
+                                        <td>2024-02-13</td>
+                                        <td>$600.00</td>
+                                        <td>Credit Card</td>
+                                        <td><span class="status processing">Processing</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD009</td>
+                                        <td>James Wilson</td>
+                                        <td>2024-02-12</td>
+                                        <td>$25.00</td>
+                                        <td>Debit Card</td>
+                                        <td><span class="status pending">Pending</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD010</td>
+                                        <td>Đào Thị Mai</td>
+                                        <td>2024-02-11</td>
+                                        <td>$199.99</td>
+                                        <td>Bank Transfer</td>
+                                        <td><span class="status completed">Completed</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD011</td>
+                                        <td>Daniel Moore</td>
+                                        <td>2024-02-10</td>
+                                        <td>$45.00</td>
+                                        <td>Credit Card</td>
+                                        <td><span class="status processing">Processing</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD012</td>
+                                        <td>Phạm Quang Vinh</td>
+                                        <td>2024-02-09</td>
+                                        <td>$88.88</td>
+                                        <td>PayPal</td>
+                                        <td><span class="status pending">Pending</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD013</td>
+                                        <td>Ethan Lewis</td>
+                                        <td>2024-02-08</td>
+                                        <td>$300.00</td>
+                                        <td>Credit Card</td>
+                                        <td><span class="status completed">Completed</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD014</td>
+                                        <td>Vũ Ngọc Anh</td>
+                                        <td>2024-02-07</td>
+                                        <td>$12.99</td>
+                                        <td>Debit Card</td>
+                                        <td><span class="status processing">Processing</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD015</td>
+                                        <td>Michael King</td>
+                                        <td>2024-02-06</td>
+                                        <td>$550.00</td>
+                                        <td>Bank Transfer</td>
+                                        <td><span class="status pending">Pending</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD016</td>
+                                        <td>Nguyễn Thị Hoa</td>
+                                        <td>2024-02-05</td>
+                                        <td>$79.00</td>
+                                        <td>Credit Card</td>
+                                        <td><span class="status completed">Completed</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD017</td>
+                                        <td>Alexander Scott</td>
+                                        <td>2024-02-04</td>
+                                        <td>$210.00</td>
+                                        <td>PayPal</td>
+                                        <td><span class="status processing">Processing</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD018</td>
+                                        <td>Trần Đình Chung</td>
+                                        <td>2024-02-03</td>
+                                        <td>$99.00</td>
+                                        <td>Debit Card</td>
+                                        <td><span class="status pending">Pending</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD019</td>
+                                        <td>William Adams</td>
+                                        <td>2024-02-02</td>
+                                        <td>$349.99</td>
+                                        <td>Credit Card</td>
+                                        <td><span class="status completed">Completed</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD020</td>
+                                        <td>Lý Thị Thảo</td>
+                                        <td>2024-02-01</td>
+                                        <td>$15.50</td>
+                                        <td>PayPal</td>
+                                        <td><span class="status processing">Processing</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD021</td>
+                                        <td>Noah Nelson</td>
+                                        <td>2024-01-31</td>
+                                        <td>$65.00</td>
+                                        <td>Bank Transfer</td>
+                                        <td><span class="status pending">Pending</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD022</td>
+                                        <td>Đặng Văn Đức</td>
+                                        <td>2024-01-30</td>
+                                        <td>$420.00</td>
+                                        <td>Credit Card</td>
+                                        <td><span class="status completed">Completed</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD023</td>
+                                        <td>Liam Roberts</td>
+                                        <td>2024-01-29</td>
+                                        <td>$22.22</td>
+                                        <td>Debit Card</td>
+                                        <td><span class="status processing">Processing</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD024</td>
+                                        <td>Bùi Thị Mai</td>
+                                        <td>2024-01-28</td>
+                                        <td>$700.00</td>
+                                        <td>PayPal</td>
+                                        <td><span class="status pending">Pending</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#ORD025</td>
+                                        <td>Benjamin Campbell</td>
+                                        <td>2024-01-27</td>
+                                        <td>$110.00</td>
+                                        <td>Credit Card</td>
+                                        <td><span class="status completed">Completed</span></td>
+                                        <td>
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        const tableRows = document.querySelectorAll('tbody tr');
+
+        const filterButtons = document.querySelectorAll('.btn-filter');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const filter = button.textContent.toLowerCase();
+                let statusToFilter = '';
+
+                if (filter === 'tất cả') {
+                    statusToFilter = 'all';
+                } else if (filter === 'đang xử lý') {
+                    statusToFilter = 'processing';
+                } else if (filter === 'đang thanh toán') {
+                    statusToFilter = 'pending';
+                } else if (filter === 'thành công') {
+                    statusToFilter = 'completed';
+                }
+
+                tableRows.forEach(row => {
+                    const statusCell = row.querySelector('.status');
+                    if (statusCell) {
+                        const status = statusCell.textContent.toLowerCase();
+                        if (statusToFilter === 'all' || status === statusToFilter) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        }); 
+    </script>
+</body>
+ 
